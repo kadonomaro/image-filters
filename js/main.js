@@ -13,11 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let imageData = context.getImageData(x, y, image.width, image.height);
 
-    imageFilters.grayscale(imageData.data);
+    // imageFilters.grayscale(imageData.data);
     imageFilters.opacity(imageData.data, 100);
+    imageFilters.invert(imageData.data);
 
     context.putImageData(imageData, x, y);
-    console.log(imageData);
+    console.log(imageData.data);
 
 });
 
@@ -25,11 +26,11 @@ let imageFilters = {
 
     grayscale: function (data) {
         for (let i = 0; i < data.length; i += 4) {
-            const brightness =
+            const grayscale =
                 0.34 * data[i] + 0.5 * data[i + 1] * 0.16 + data[i + 2];
-            data[i] = brightness;
-            data[i + 1] = brightness;
-            data[i + 2] = brightness;
+            data[i] = grayscale;
+            data[i + 1] = grayscale;
+            data[i + 2] = grayscale;
             
         }
     },
@@ -37,6 +38,25 @@ let imageFilters = {
         opacity *= 2.55;
         for (let i = 0; i < data.length; i += 4) {
             data[i + 3] = opacity;
+        }
+    },
+    some: function (data) {
+        let temp;
+        
+        for (let i = 0; i < data.length; i += 4) {
+            temp = data[i];
+            data[i] = data[i + 1];
+            data[i + 1] = data[i + 2];
+            data[i + 2] = temp;
+
+            
+        }
+    },
+    invert: function (data) {
+        for (let i = 0; i < data.length; i += 4) {
+            data[i] = data[i] ^ 255;
+            data[i + 1] = data[i + 1] ^ 255;
+            data[i + 2] = data[i + 2] ^ 255;
         }
     }
 };
