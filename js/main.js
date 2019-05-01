@@ -14,18 +14,15 @@ document.addEventListener('DOMContentLoaded', function () {
     let imageData = context.getImageData(x, y, image.width, image.height);
 
     imageFilters.grayscale(imageData.data);
-
+    imageFilters.opacity(imageData.data, 100);
 
     context.putImageData(imageData, x, y);
+    console.log(imageData);
 
 });
 
 let imageFilters = {
-    i: 0,
-    red: this.i,
-    green: this.i + 1,
-    blue: this.i + 2,
-    alpha: this.i + 3,
+
     grayscale: function (data) {
         for (let i = 0; i < data.length; i += 4) {
             const brightness =
@@ -33,6 +30,13 @@ let imageFilters = {
             data[i] = brightness;
             data[i + 1] = brightness;
             data[i + 2] = brightness;
+            
+        }
+    },
+    opacity: function (data, opacity = 100) {
+        opacity *= 2.55;
+        for (let i = 0; i < data.length; i += 4) {
+            data[i + 3] = opacity;
         }
     }
 };
