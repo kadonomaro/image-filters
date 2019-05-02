@@ -18,18 +18,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // imageFilters.invert(imageData.data);
     // imageFilters.some(imageData.data);
     // imageFilters.averageColor(imageData.data);
-    // imageFilters.contrast(imageData.data, 100);
+    // imageFilters.contrast(imageData.data, 30);
+    // imageFilters.brightness(imageData.data, -10);
     
 
     context.putImageData(imageData, x, y);
     console.log(imageData.data);
-    canvas.style.filter = 'contrast(100%)';
-    console.log(imageData.data);
+
 
 
 });
 
 let imageFilters = {
+    brightness: function (data, brightness) {
+        for (let i = 0; i < data.length; i += 4) {
+            data[i] += 255 * (brightness / 100);
+            data[i + 1] += 255 * (brightness / 100);
+            data[i + 2] += 255 * (brightness / 100);
+        }
+    },
     contrast: function (data, contrast) {
         contrast = (contrast / 100) + 1;
         let intercept = 128 * (1 - contrast);
